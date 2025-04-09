@@ -15,8 +15,8 @@ class SpellView extends StatefulWidget {
 
 class _SpellViewState extends State<SpellView> {
   final _formId = GlobalKey<FormState>();
-  int? _slotsValue = null;
-  int? _fpValue = null;
+  int? _slotsValue;
+  int? _fpValue;
   String _spellName = "";
   List<Spell> _spells = [];
 
@@ -33,7 +33,7 @@ class _SpellViewState extends State<SpellView> {
 
   /// Makes http request to fetch spells from the API and populates the list of spells
   void fetchSpells() async {
-    String url = widget.url + "?";
+    String url = "${widget.url}?";
 
     if (_spellName.isNotEmpty) {
       url += "name=$_spellName&";
@@ -184,6 +184,7 @@ class _SpellViewState extends State<SpellView> {
                                 _slotsValue = null;
                                 _fpValue = null;
                                 _spellName = "";
+                                _spells = [];
                               });
                             },
                             child: Text("Reset"),
@@ -206,6 +207,36 @@ class _SpellViewState extends State<SpellView> {
                   ],
                 ),
               ),
+            ),
+
+            Divider(thickness: 2, color: Colors.black),
+
+            ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: _spells.length,
+              itemBuilder: (context, index) {
+                final spell = _spells[index];
+                return Card(
+                  margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  child: ListTile(
+                    title: Text(spell.name!),
+                    subtitle: Text("FP: ${spell.fp}, Slots: ${spell.slot}"),
+                    leading:
+                        spell.image != null
+                            ? Image.network(
+                              spell.image!,
+                              width: 50,
+                              height: 50,
+                              fit: BoxFit.cover,
+                            )
+                            : Icon(Icons.image_not_supported),
+                    onTap: () {
+                      // Handle tap on spell item
+                    },
+                  ),
+                );
+              },
             ),
           ],
         ),
