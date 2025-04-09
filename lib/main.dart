@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:igme_project_2/spellView.dart';
+import 'package:igme_project_2/spell_view.dart';
 
 void main() {
   runApp(const MyApp());
