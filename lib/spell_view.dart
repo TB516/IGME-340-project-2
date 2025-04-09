@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:igme_project_2/data/spell.dart';
 import 'package:http/http.dart' as http;
+import 'package:igme_project_2/spell_card.dart';
 
 class SpellView extends StatefulWidget {
   final String url;
@@ -20,6 +21,7 @@ class _SpellViewState extends State<SpellView> {
   String _spellName = "";
   List<Spell> _spells = [];
 
+  /// Creates a list of spells from the JSON response
   List<Spell> createSpellsList(String json) {
     dynamic data = jsonDecode(json);
     List<Spell> spells = [];
@@ -217,25 +219,7 @@ class _SpellViewState extends State<SpellView> {
               itemCount: _spells.length,
               itemBuilder: (context, index) {
                 final spell = _spells[index];
-                return Card(
-                  margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                  child: ListTile(
-                    title: Text(spell.name!),
-                    subtitle: Text("FP: ${spell.fp}, Slots: ${spell.slot}"),
-                    leading:
-                        spell.image != null
-                            ? Image.network(
-                              spell.image!,
-                              width: 50,
-                              height: 50,
-                              fit: BoxFit.cover,
-                            )
-                            : Icon(Icons.image_not_supported),
-                    onTap: () {
-                      // Handle tap on spell item
-                    },
-                  ),
-                );
+                return SpellCard(spell: spell);
               },
             ),
           ],
