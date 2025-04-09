@@ -212,7 +212,7 @@ class _SpellViewState extends State<SpellView> {
               ),
             ),
 
-            Divider(thickness: 2, color: Colors.black),
+            Divider(thickness: 4, color: const Color.fromARGB(255, 58, 58, 58)),
 
             /// Visual representation of spells
             Column(
