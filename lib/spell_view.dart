@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:igme_project_2/data/spell.dart';
 import 'package:http/http.dart' as http;
 import 'package:igme_project_2/spell_card.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SpellView extends StatefulWidget {
   final String url;
@@ -15,11 +16,30 @@ class SpellView extends StatefulWidget {
 }
 
 class _SpellViewState extends State<SpellView> {
-  final _formId = GlobalKey<FormState>();
+  final TextEditingController _searchController = TextEditingController();
   int? _slotsValue;
   int? _fpValue;
   String _spellName = "";
   List<Spell> _spells = [];
+
+  late SharedPreferences prefs;
+
+  void initState() {
+    super.initState();
+
+    init();
+  }
+
+  Future<void> init() async {
+    prefs = await SharedPreferences.getInstance();
+    String? lastSearchTerm = prefs.getString('lastSearchTerm${widget.name}');
+    if (lastSearchTerm != null) {
+      setState(() {
+        _spellName = lastSearchTerm;
+        _searchController.value = TextEditingValue(text: lastSearchTerm);
+      });
+    }
+  }
 
   /// Creates a list of spells from the JSON response
   List<Spell> createSpellsList(String json) {
@@ -73,7 +93,6 @@ class _SpellViewState extends State<SpellView> {
           children: [
             /// App form controls
             Form(
-              key: _formId,
               child: Padding(
                 padding: EdgeInsets.all(8),
                 child: Column(
@@ -83,6 +102,7 @@ class _SpellViewState extends State<SpellView> {
                       children: [
                         Expanded(
                           child: TextFormField(
+                            controller: _searchController,
                             decoration: InputDecoration(
                               label: Text("Spell name"),
                               hintText: 'Search for ${widget.name}',
@@ -91,9 +111,6 @@ class _SpellViewState extends State<SpellView> {
                               ),
                               prefixIcon: Icon(Icons.search),
                             ),
-                            validator: (value) {
-                              return null;
-                            },
                             onChanged: (value) {
                               _spellName = value;
                             },
@@ -183,7 +200,7 @@ class _SpellViewState extends State<SpellView> {
                           child: OutlinedButton(
                             onPressed: () {
                               setState(() {
-                                _formId.currentState?.reset();
+                                _searchController.clear();
                                 _slotsValue = null;
                                 _fpValue = null;
                                 _spellName = "";
@@ -201,6 +218,11 @@ class _SpellViewState extends State<SpellView> {
                               setState(() {
                                 fetchSpells();
                               });
+
+                              await prefs.setString(
+                                'lastSearchTerm${widget.name}',
+                                _spellName,
+                              );
                             },
                             child: Text("Search"),
                           ),
