@@ -20,6 +20,8 @@ class SpellCard extends StatefulWidget {
 class _SpellCardState extends State<SpellCard> {
   @override
   Widget build(BuildContext context) {
+    /// Card widget to display spell information
+    /// The card contains a title, subtitle, and an icon button to toggle favorite status
     return Card(
       color: const Color.fromARGB(255, 58, 58, 58),
       margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
@@ -69,12 +71,12 @@ class _SpellCardState extends State<SpellCard> {
                     ),
                     SizedBox(height: 16),
                     Text(
-                      widget.spell.description ?? "No description available.",
+                      widget.spell.description!,
                       style: TextStyle(fontSize: 16),
                     ),
                     SizedBox(height: 16),
                     Text(
-                      "Location: ${widget.spell.location ?? "Unknown"}",
+                      "Location: ${widget.spell.location!}",
                       style: TextStyle(
                         fontSize: 14,
                         fontStyle: FontStyle.italic,

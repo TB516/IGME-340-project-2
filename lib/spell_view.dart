@@ -30,6 +30,7 @@ class _SpellViewState extends State<SpellView> {
     init();
   }
 
+  /// Initializes the SharedPreferences instance and retrieves the last search term
   Future<void> init() async {
     prefs = await SharedPreferences.getInstance();
     String? lastSearchTerm = prefs.getString('lastSearchTerm${widget.name}');
@@ -245,7 +246,7 @@ class _SpellViewState extends State<SpellView> {
 
             Divider(thickness: 4, color: const Color.fromARGB(255, 58, 58, 58)),
 
-            /// Visual representation of spells
+            /// Visual representation of spells with list view
             Column(
               children: [
                 /// Provide indication that no spells are loaded currently

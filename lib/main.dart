@@ -25,10 +25,13 @@ class MyApp extends StatelessWidget {
           ),
           body: TabBarView(
             children: [
+              /// Sorceries tab for displaying sorceries
               SpellView(
                 url: "https://api.eldenring.thomasberrios.com/sorceries",
                 name: "Sorceries",
               ),
+
+              /// Incantations tab for displaying incantations
               SpellView(
                 url: "https://api.eldenring.thomasberrios.com/incantations",
                 name: "Incantations",
