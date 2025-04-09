@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:igme_project_2/data/spell.dart';
 import 'package:http/http.dart' as http;
@@ -20,8 +22,14 @@ class _SpellViewState extends State<SpellView> {
   List<Spell> _spells = [];
 
   List<Spell> createSpellsList(String json) {
-    print(json);
-    return [];
+    dynamic data = jsonDecode(json);
+    List<Spell> spells = [];
+
+    for (var spell in data) {
+      spells.add(Spell(json: spell));
+    }
+
+    return spells;
   }
 
   /// Makes http request to fetch spells from the API and populates the list of spells
