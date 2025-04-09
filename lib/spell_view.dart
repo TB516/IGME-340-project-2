@@ -42,7 +42,7 @@ class _SpellViewState extends State<SpellView> {
       url += "fp=$_fpValue&";
     }
     if (_slotsValue != null) {
-      url += "slots=$_slotsValue&";
+      url += "slot=$_slotsValue&";
     }
 
     http.Response response = await http.get(Uri.parse(url));
