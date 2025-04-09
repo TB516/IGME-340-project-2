@@ -3,8 +3,9 @@ import 'package:igme_project_2/data/spell.dart';
 
 class SpellCard extends StatelessWidget {
   final Spell spell;
+  bool favorited;
 
-  const SpellCard({super.key, required this.spell});
+  SpellCard({super.key, required this.spell, required this.favorited});
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +15,12 @@ class SpellCard extends StatelessWidget {
       child: ListTile(
         title: Text(spell.name!),
         subtitle: Text("FP: ${spell.fp}, Slots: ${spell.slot}"),
+        trailing: IconButton(
+          onPressed: () {
+            favorited = !favorited;
+          },
+          icon: Icon(favorited ? Icons.star : Icons.star_border),
+        ),
         leading:
             spell.image != null
                 ? Image.network(
@@ -23,6 +30,8 @@ class SpellCard extends StatelessWidget {
                   fit: BoxFit.cover,
                 )
                 : Icon(Icons.image_not_supported),
+
+        /// Popup dialog with more details
         onTap: () {
           showDialog(
             context: context,
