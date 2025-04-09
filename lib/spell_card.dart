@@ -3,9 +3,15 @@ import 'package:igme_project_2/data/spell.dart';
 
 class SpellCard extends StatefulWidget {
   final Spell spell;
+  final Function(bool, Spell) onFavoriteToggle;
   bool favorited;
 
-  SpellCard({super.key, required this.spell, required this.favorited});
+  SpellCard({
+    super.key,
+    required this.spell,
+    required this.favorited,
+    required this.onFavoriteToggle,
+  });
 
   @override
   _SpellCardState createState() => _SpellCardState();
@@ -24,9 +30,13 @@ class _SpellCardState extends State<SpellCard> {
           onPressed: () {
             setState(() {
               widget.favorited = !widget.favorited;
+              widget.onFavoriteToggle(widget.favorited, widget.spell);
             });
           },
-          icon: Icon(widget.favorited ? Icons.star : Icons.star_border),
+          icon: Icon(
+            widget.favorited ? Icons.star : Icons.star_border,
+            color: widget.favorited ? Colors.yellow : Colors.grey,
+          ),
         ),
         leading:
             widget.spell.image != null

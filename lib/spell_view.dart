@@ -41,6 +41,15 @@ class _SpellViewState extends State<SpellView> {
     }
   }
 
+  /// Toggles the favorite status of a spell. Passed as a callback into the spell card.
+  void toggleFavorite(bool favorited, Spell spell) {
+    if (favorited) {
+      prefs.setBool(spell.name!, true);
+    } else {
+      prefs.remove(spell.name!);
+    }
+  }
+
   /// Creates a list of spells from the JSON response
   List<Spell> createSpellsList(String json) {
     dynamic data = jsonDecode(json);
@@ -248,7 +257,11 @@ class _SpellViewState extends State<SpellView> {
                       itemCount: _spells.length,
                       itemBuilder: (context, index) {
                         final spell = _spells[index];
-                        return SpellCard(spell: spell, favorited: false);
+                        return SpellCard(
+                          spell: spell,
+                          favorited: prefs.containsKey(spell.name!),
+                          onFavoriteToggle: toggleFavorite,
+                        );
                       },
                     ),
               ],
