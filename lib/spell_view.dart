@@ -71,6 +71,7 @@ class _SpellViewState extends State<SpellView> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            /// App form controls
             Form(
               key: _formId,
               child: Padding(
@@ -213,14 +214,22 @@ class _SpellViewState extends State<SpellView> {
 
             Divider(thickness: 2, color: Colors.black),
 
-            ListView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: _spells.length,
-              itemBuilder: (context, index) {
-                final spell = _spells[index];
-                return SpellCard(spell: spell);
-              },
+            /// Visual representation of spells
+            Column(
+              children: [
+                /// Provide indication that no spells are loaded currently
+                _spells.isEmpty
+                    ? Text("No ${widget.name} Found!")
+                    : ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: _spells.length,
+                      itemBuilder: (context, index) {
+                        final spell = _spells[index];
+                        return SpellCard(spell: spell);
+                      },
+                    ),
+              ],
             ),
           ],
         ),
