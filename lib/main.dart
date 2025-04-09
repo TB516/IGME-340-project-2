@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:igme_project_2/spellView.dart';
 
 void main() {
   runApp(const MyApp());
@@ -24,7 +25,18 @@ class MyApp extends StatelessWidget {
               tabs: [Tab(text: 'Sorceries'), Tab(text: 'Incantations')],
             ),
           ),
-          body: Center(child: Text("App Content Here")),
+          body: TabBarView(
+            children: [
+              SpellView(
+                url: "https://api.eldenring.thomasberrios.com/sorceries",
+                name: "Sorceries",
+              ),
+              SpellView(
+                url: "https://api.eldenring.thomasberrios.com/incantations",
+                name: "Incantations",
+              ),
+            ],
+          ),
         ),
       ),
     );
