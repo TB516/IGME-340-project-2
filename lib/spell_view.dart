@@ -248,7 +248,7 @@ class _SpellViewState extends State<SpellView> {
                       itemCount: _spells.length,
                       itemBuilder: (context, index) {
                         final spell = _spells[index];
-                        return SpellCard(spell: spell);
+                        return SpellCard(spell: spell, favorited: false);
                       },
                     ),
               ],

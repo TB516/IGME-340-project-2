@@ -1,30 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:igme_project_2/data/spell.dart';
 
-class SpellCard extends StatelessWidget {
+class SpellCard extends StatefulWidget {
   final Spell spell;
   bool favorited;
 
   SpellCard({super.key, required this.spell, required this.favorited});
 
   @override
+  _SpellCardState createState() => _SpellCardState();
+}
+
+class _SpellCardState extends State<SpellCard> {
+  @override
   Widget build(BuildContext context) {
     return Card(
       color: const Color.fromARGB(255, 58, 58, 58),
       margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       child: ListTile(
-        title: Text(spell.name!),
-        subtitle: Text("FP: ${spell.fp}, Slots: ${spell.slot}"),
+        title: Text(widget.spell.name!),
+        subtitle: Text("FP: ${widget.spell.fp}, Slots: ${widget.spell.slot}"),
         trailing: IconButton(
           onPressed: () {
-            favorited = !favorited;
+            setState(() {
+              widget.favorited = !widget.favorited;
+            });
           },
-          icon: Icon(favorited ? Icons.star : Icons.star_border),
+          icon: Icon(widget.favorited ? Icons.star : Icons.star_border),
         ),
         leading:
-            spell.image != null
+            widget.spell.image != null
                 ? Image.network(
-                  spell.image!,
+                  widget.spell.image!,
                   width: 50,
                   height: 50,
                   fit: BoxFit.cover,
@@ -39,12 +46,12 @@ class SpellCard extends StatelessWidget {
               return AlertDialog(
                 content: Column(
                   children: [
-                    spell.image != null
-                        ? Image.network(spell.image!, fit: BoxFit.cover)
+                    widget.spell.image != null
+                        ? Image.network(widget.spell.image!, fit: BoxFit.cover)
                         : Icon(Icons.image_not_supported),
                     SizedBox(height: 16),
                     Text(
-                      spell.name!,
+                      widget.spell.name!,
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -52,12 +59,12 @@ class SpellCard extends StatelessWidget {
                     ),
                     SizedBox(height: 16),
                     Text(
-                      spell.description ?? "No description available.",
+                      widget.spell.description ?? "No description available.",
                       style: TextStyle(fontSize: 16),
                     ),
                     SizedBox(height: 16),
                     Text(
-                      "Location: ${spell.location ?? "Unknown"}",
+                      "Location: ${widget.spell.location ?? "Unknown"}",
                       style: TextStyle(
                         fontSize: 14,
                         fontStyle: FontStyle.italic,
